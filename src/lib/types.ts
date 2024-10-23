@@ -47,6 +47,11 @@ export enum EquipType {
     Medal = "Medal",
 }
 
+export enum Job {
+    NL = "Night Lord",
+    Shad = "Shadower",
+}
+
 export interface GearSet {
     top?: Equip | null;
     bot?: Equip | null;

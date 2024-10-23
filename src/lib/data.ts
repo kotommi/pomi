@@ -1,4 +1,4 @@
-import { EquipType, type Equip, type EquipSet } from "./types";
+import { EquipType, Job, type Equip, type EquipSet } from "./types";
 
 export const tops: Equip[] = [
     {
@@ -67,3 +67,12 @@ export const equipSet: EquipSet[] = [
         equips: helms
     }
 ]
+
+export const defaultStats = {
+    "Night Lord": {
+        str: 4,
+        dex: 25,
+        luk: 997,
+        int: 4,
+    }
+}
