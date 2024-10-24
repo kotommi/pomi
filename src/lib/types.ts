@@ -52,9 +52,34 @@ export enum Job {
     Shad = "Shadower",
 }
 
+export enum AttPot {
+    None = 0,
+    Stopper = 60,
+    Apple = 100,
+    Gelt = 120,
+    Narc = 140
+}
+
+export type Character = {
+    name: string;
+    job: Job;
+    stats: {
+        luk: number;
+        dex: number;
+        str: number;
+        int: number;
+    };
+}
+
 export interface GearSet {
     top?: Equip | null;
     bot?: Equip | null;
     helm?: Equip | null;
 }
 
+export interface CharConfig {
+    attPot: AttPot;
+    sharpEyes: boolean
+    booster: boolean;
+    si: boolean;
+}
