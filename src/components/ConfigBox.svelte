@@ -1,18 +1,14 @@
 <script lang="ts">
 	import { AttPot, type CharConfig } from '$lib/types';
 
-	interface Props {
-		charConfig: CharConfig;
-	}
-
-	let { charConfig = $bindable() }: Props = $props();
+	export let charConfig: CharConfig;
 </script>
 
 <div class="flex flex-col">
 	<h2 class="h2">Config</h2>
 	<div class="flex flex-row">
 		<span>Att Pot</span>
-		<select class="select" bind:value={charConfig.attPot} onchange={() => console.log(charConfig)}>
+		<select class="select" bind:value={charConfig.attPot} on:change={() => console.log(charConfig)}>
 			{#each Object.keys(AttPot).filter((key) => Number.isNaN(Number(key))) as pot}
 				<option selected={pot === AttPot[charConfig.attPot]} value={pot}>{pot}</option>
 			{/each}
