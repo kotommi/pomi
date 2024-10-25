@@ -16,7 +16,6 @@ const totalStats = (gs: GearSet, config: CharConfig, char: Character) => {
         primaryTotal = basePrimaryStat + Math.floor(basePrimaryStat * 0.1)
     }
     primaryTotal += equipPrimary;
-    console.log(`${jobAttributes.primaryStat}: ${primaryTotal}`)
     // breaks if all stats arent present at least as 0s
     const secondaries = weaponAttributes[char.job].secondary;
     const secondaryEquipStats = secondaries.map(sec => getEquipStats(gs, sec as keyof Character["stats"])).reduce((acc, cur) => acc + cur, 0)//getEquipStats(gs, jobAttributes.secondary)//attributes.secondary.map(stat => char.baseStats[stat] + char.weapon.stats[stat]).reduce((acc, cur) => acc + cur, 0);
@@ -36,8 +35,8 @@ export const range = (gs: GearSet, config: CharConfig, char: Character) => {
     const primary = primaryTotal * jobAttributes.primaryMulti;
     const secondary = secondaryStatSum
     const totalWatt = getTotalWatt(gs)
-    const maxRange = (primary + secondary) * (totalWatt) / 100
-    const minRange = (primary * 0.9 * jobAttributes.mastery + secondary) * totalWatt / 100
+    const maxRange = Math.floor((primary + secondary) * (totalWatt) / 100)
+    const minRange = Math.floor((primary * 0.9 * jobAttributes.mastery + secondary) * totalWatt / 100)
     return { minRange, maxRange }
 }
 
@@ -68,7 +67,7 @@ export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
     const maxHit = maxTT * skillPercentage * critMulti
     const skillTime = 0.6
     // 3 hits + 3*0.5 hits from sp
-    const averageDps = (3 + 3 * 0.5) * averageDamage / skillTime
+    const averageDps = Math.floor((3 + 3 * 0.5) * averageDamage / skillTime)
     return { averageDps, averageDamage, maxHit }
 }
 

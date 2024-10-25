@@ -6,6 +6,18 @@
 	export let char: Character;
 	export let gearSet: GearSet;
 
+	console.log(char);
+
+	const helper = () => {
+		console.log(char.stats.luk);
+		const deeps = ttDamage(gearSet, charConfig, char).averageDps;
+		console.log(deeps);
+		console.log(gearSet);
+		console.log(charConfig);
+		console.log(char);
+		return ttDamage(gearSet, charConfig, char).averageDps;
+	};
+
 	let { minRange, maxRange } = range(gearSet, charConfig, char);
 </script>
 
@@ -15,7 +27,7 @@
 		<span>range: {minRange} - {maxRange}</span>
 	</div>
 	<div>
-		<span>dps: {ttDamage(gearSet, charConfig, char).averageDps}</span>
+		<span>dps: {helper()}</span>
 	</div>
 	<div>
 		<span>Max hit: </span>

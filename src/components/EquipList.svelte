@@ -1,13 +1,12 @@
 <script lang="ts">
 	import type { Equip, EquipSet, EquipType, GearSet } from '../lib/types';
 	// instance-level logic goes here
-	export let equipSet: EquipSet[] = [];
+	export let equipSet: EquipSet[];
 
-	export let equippedGear: GearSet = {
-		top: null,
-		bot: null,
-		helm: null
-	};
+	export let equippedGear: GearSet;
+
+	console.log(equippedGear);
+	console.log(equipSet);
 </script>
 
 <!-- markup (zero or more items) goes here -->
@@ -55,6 +54,7 @@
 				{#each equipSet[2]?.equips as equip}
 					<option value={equip}>{equip.name}</option>
 				{/each}
+				<option value={null}>--</option>
 			</select>
 		</li>
 	</ul>

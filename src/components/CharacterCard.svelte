@@ -1,12 +1,7 @@
 <script lang="ts">
 	import { Job, type Stats, type Character } from '$lib/types';
-	import { getStats } from '$lib/utils';
 
-	export let char: Character = {
-		name: 'Maple',
-		job: Job.NL,
-		stats: getStats(Job.NL)
-	};
+	export let char: Character;
 
 	const onChange = (e: Event) => {
 		const select = e.target as HTMLSelectElement;
@@ -35,11 +30,11 @@
 					id="str"
 					class="input text-center"
 					title="str"
-					type="text"
+					type="number"
 					bind:value={char.stats.str}
-					minlength="1"
-					maxlength="3"
-					size="3"
+					minlength={1}
+					maxlength={3}
+					size={3}
 				/>
 			</li>
 			<li>
@@ -48,11 +43,11 @@
 					id="dex"
 					class="input text-center"
 					title="dex"
-					type="text"
+					type="number"
 					bind:value={char.stats.dex}
-					minlength="1"
-					maxlength="3"
-					size="3"
+					minlength={1}
+					maxlength={3}
+					size={3}
 				/>
 			</li>
 			<li>
@@ -61,11 +56,11 @@
 					id="int"
 					class="input text-center"
 					title="int"
-					type="text"
+					type="number"
 					bind:value={char.stats.int}
-					minlength="1"
-					maxlength="3"
-					size="4"
+					minlength={1}
+					maxlength={3}
+					size={3}
 				/>
 			</li>
 			<li>
@@ -74,8 +69,9 @@
 					id="luk"
 					class="input text-center"
 					title="luk"
-					type="text"
+					type="number"
 					bind:value={char.stats.luk}
+					on:change={() => console.log(char)}
 					minlength={1}
 					maxlength={3}
 					size={4}
