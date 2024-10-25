@@ -2,9 +2,13 @@
 	import { range, ttDamage } from '$lib/damage';
 	import { AttPot, type Character, type CharConfig, type GearSet } from '$lib/types';
 
-	export let charConfig: CharConfig;
-	export let char: Character;
-	export let gearSet: GearSet;
+	interface Props {
+		charConfig: CharConfig;
+		char: Character;
+		gearSet: GearSet;
+	}
+
+	let { charConfig, char, gearSet }: Props = $props();
 
 	let { minRange, maxRange } = range(gearSet, charConfig, char);
 </script>

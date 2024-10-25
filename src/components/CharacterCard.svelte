@@ -2,11 +2,15 @@
 	import { Job, type Stats, type Character } from '$lib/types';
 	import { getStats } from '$lib/utils';
 
-	export let char: Character = {
+	interface Props {
+		char?: Character;
+	}
+
+	let { char = $bindable({
 		name: 'Maple',
 		job: Job.NL,
 		stats: getStats(Job.NL)
-	};
+	}) }: Props = $props();
 
 	const onChange = (e: Event) => {
 		const select = e.target as HTMLSelectElement;
@@ -19,7 +23,7 @@
 	<h2 class="h2">Character</h2>
 	<div class="flex flex-row m-4 p-4">
 		<span>Job</span>
-		<select class="select" bind:value={char.job} on:change={onChange}>
+		<select class="select" bind:value={char.job} onchange={onChange}>
 			{#each Object.values(Job) as job}
 				<option selected={job === char.job}>{job}</option>
 			{/each}

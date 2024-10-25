@@ -1,13 +1,17 @@
 <script lang="ts">
 	import type { Equip, EquipSet, EquipType, GearSet } from '../lib/types';
 	// instance-level logic goes here
-	export let equipSet: EquipSet[] = [];
 
-	export let equippedGear: GearSet = {
+	interface Props {
+		equipSet?: EquipSet[];
+		equippedGear?: GearSet;
+	}
+
+	let { equipSet = [], equippedGear = $bindable({
 		top: null,
 		bot: null,
 		helm: null
-	};
+	}) }: Props = $props();
 </script>
 
 <!-- markup (zero or more items) goes here -->
@@ -20,7 +24,7 @@
 			<select
 				class="select"
 				bind:value={equippedGear.top}
-				on:change={() => console.log(equippedGear)}
+				onchange={() => console.log(equippedGear)}
 			>
 				{#each equipSet[0]?.equips as equip}
 					<option value={equip}>{equip.name}</option>
@@ -34,7 +38,7 @@
 			<select
 				class="select"
 				bind:value={equippedGear.bot}
-				on:change={() => console.log(equippedGear.bot)}
+				onchange={() => console.log(equippedGear.bot)}
 			>
 				{#each equipSet[1]?.equips as equip}
 					<option value={equip} selected={equip.name === equippedGear?.bot?.name}
@@ -50,7 +54,7 @@
 			<select
 				class="select"
 				bind:value={equippedGear.helm}
-				on:change={() => console.log(equippedGear)}
+				onchange={() => console.log(equippedGear)}
 			>
 				{#each equipSet[2]?.equips as equip}
 					<option value={equip}>{equip.name}</option>
