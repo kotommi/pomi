@@ -15,15 +15,19 @@
 		</select>
 	</div>
 	<div class="flex flex-row">
-		<span>Sharp Eyes</span>
+		<span>se</span>
 		<input class="input" type="checkbox" bind:checked={charConfig.sharpEyes} />
 	</div>
 	<div>
-		<span>Booster</span>
+		<span>booster</span>
 		<input class="input" type="checkbox" bind:checked={charConfig.booster} />
 	</div>
 	<div>
-		<span>SI</span>
+		<span>si</span>
 		<input class="input" type="checkbox" bind:checked={charConfig.si} />
+	</div>
+	<div>
+		<span>mw</span>
+		<input class="input" type="checkbox" bind:checked={charConfig.mw} />
 	</div>
 </div>

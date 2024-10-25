@@ -82,4 +82,12 @@ export interface CharConfig {
     sharpEyes: boolean
     booster: boolean;
     si: boolean;
+    mw: boolean;
 }
+
+export type Stats = {
+    str: number;
+    dex: number;
+    luk: number;
+    int: number;
+};

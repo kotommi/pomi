@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { Job } from '$lib/types';
+	import { Job, type Stats, type Character } from '$lib/types';
 
-	type Stats = {
-		str: number;
-		dex: number;
-		luk: number;
-		int: number;
-	};
 	const getStats = (job: Job): Stats => {
 		return defaultStats[job];
 	};
@@ -16,9 +10,10 @@
 		// Add other jobs here
 	};
 
-	const char = {
+	const char: Character = {
 		name: 'Maple',
-		job: Job.NL
+		job: Job.NL,
+		stats: getStats(Job.NL)
 	};
 
 	const onChange = (e: Event) => {
@@ -46,23 +41,24 @@
 				<label class="label" for="str">STR</label>
 				<input
 					id="str"
-					class="input"
+					class="input text-center"
 					title="str"
 					type="text"
-					value={getStats(char.job).str}
+					bind:value={char.stats.str}
 					minlength="1"
 					maxlength="3"
 					size="3"
+					
 				/>
 			</li>
 			<li>
 				<label class="label" for="dex">DEX</label>
 				<input
 					id="dex"
-					class="input"
+					class="input text-center"
 					title="dex"
 					type="text"
-					value={getStats(char.job).dex}
+					bind:value={char.stats.dex}
 					minlength="1"
 					maxlength="3"
 					size="3"
@@ -72,10 +68,10 @@
 				<label class="label" for="int">INT</label>
 				<input
 					id="int"
-					class="input"
+					class="input text-center"
 					title="int"
 					type="text"
-					value={getStats(char.job).int}
+					bind:value={char.stats.int}
 					minlength="1"
 					maxlength="3"
 					size="4"
@@ -88,7 +84,7 @@
 					class="input text-center"
 					title="luk"
 					type="text"
-					value={getStats(char.job).luk}
+					bind:value={char.stats.luk}
 					minlength={1}
 					maxlength={3}
 					size={4}
