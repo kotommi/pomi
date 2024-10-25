@@ -1,5 +1,6 @@
 import type { GearSet, Equip, CharConfig, Character } from "./types"
 
+// TODO add jobs that have wa from skills
 const weaponAttributes = {
     "Night Lord": { primaryStat: "luk" as keyof Character["stats"], primaryMulti: 3.6, secondary: ["str", "dex"], mastery: 0.6 },
     "Shadower": { primaryStat: "luk", primaryMulti: 3.6, secondary: ["str", "dex"], mastery: 0.6 }
@@ -29,7 +30,7 @@ General Formula
 MAX = (Primary Stat + Secondary Stat) * Weapon Attack / 100
 MIN = (Primary Stat * 0.9 * Skill Mastery + Secondary Stat) * Weapon Attack / 100 
 */
-const range = (gs: GearSet, config: CharConfig, char: Character) => {
+export const range = (gs: GearSet, config: CharConfig, char: Character) => {
     const { primaryTotal, secondaryStatSum } = totalStats(gs, config, char)
     const jobAttributes = weaponAttributes[char.job];
     const primary = primaryTotal * jobAttributes.primaryMulti;
@@ -52,12 +53,11 @@ Fast (5): 750ms (-60ms)
 Normal (6): 810ms
 Shadow partner is 50% of the hit floored. tested in game
 */
-const ttDamage = (char) => {
-    const attributes = weaponAttributes[char.weapon.type]
-    const primaryStatSum = char.baseStats[attributes.primaryStat] + char.weapon.stats[attributes.primaryStat]
-    const totalWatt = getTotalWatt(char) //char.weapon.att
-    const maxTT = (primaryStatSum * 5) * totalWatt / 100
-    const minTT = (primaryStatSum * 2.5) * totalWatt / 100
+export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
+    const { primaryTotal } = totalStats(gs, config, char)
+    const totalWatt = getTotalWatt(gs) //char.weapon.att
+    const maxTT = (primaryTotal * 5) * totalWatt / 100
+    const minTT = (primaryTotal * 2.5) * totalWatt / 100
     const avgTT = (maxTT + minTT) / 2 // 
     const skillPercentage = 1.5 // 150%
     const baseDamage = avgTT * skillPercentage

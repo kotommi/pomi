@@ -1,17 +1,21 @@
 <script lang="ts">
-	import { AttPot, type CharConfig } from '$lib/types';
+	import { range, ttDamage } from '$lib/damage';
+	import { AttPot, type Character, type CharConfig, type GearSet } from '$lib/types';
 
 	export let charConfig: CharConfig;
+	export let char: Character;
+	export let gearSet: GearSet;
+
+	let { minRange, maxRange } = range(gearSet, charConfig, char);
 </script>
 
 <div class="flex flex-col border rounded-md">
 	<h2 class="h2">Stats</h2>
 	<div>
-		<span>range: </span>
-		<span>123</span>
+		<span>range: {minRange} - {maxRange}</span>
 	</div>
 	<div>
-		<span>dps: </span>
+		<span>dps: {ttDamage(gearSet, charConfig, char).averageDps}</span>
 	</div>
 	<div>
 		<span>Max hit: </span>

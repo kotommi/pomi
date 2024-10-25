@@ -1,16 +1,8 @@
 <script lang="ts">
 	import { Job, type Stats, type Character } from '$lib/types';
+	import { getStats } from '$lib/utils';
 
-	const getStats = (job: Job): Stats => {
-		return defaultStats[job];
-	};
-	const defaultStats: Record<Job, Stats> = {
-		[Job.NL]: { str: 4, dex: 25, luk: 997, int: 4 },
-		[Job.Shad]: { str: 4, dex: 25, luk: 997, int: 4 }
-		// Add other jobs here
-	};
-
-	const char: Character = {
+	export let char: Character = {
 		name: 'Maple',
 		job: Job.NL,
 		stats: getStats(Job.NL)
@@ -48,7 +40,6 @@
 					minlength="1"
 					maxlength="3"
 					size="3"
-					
 				/>
 			</li>
 			<li>

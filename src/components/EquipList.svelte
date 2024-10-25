@@ -2,15 +2,12 @@
 	import type { Equip, EquipSet, EquipType, GearSet } from '../lib/types';
 	// instance-level logic goes here
 	export let equipSet: EquipSet[] = [];
-	console.log(equipSet);
 
-	const equippedGear: GearSet = {
+	export let equippedGear: GearSet = {
 		top: null,
 		bot: null,
 		helm: null
 	};
-
-	type GearKey = keyof GearSet;
 </script>
 
 <!-- markup (zero or more items) goes here -->
@@ -37,10 +34,12 @@
 			<select
 				class="select"
 				bind:value={equippedGear.bot}
-				on:change={() => console.log(equippedGear)}
+				on:change={() => console.log(equippedGear.bot)}
 			>
 				{#each equipSet[1]?.equips as equip}
-					<option value={equip}>{equip.name}</option>
+					<option value={equip} selected={equip.name === equippedGear?.bot?.name}
+						>{equip.name}</option
+					>
 				{/each}
 				<option value={null}>--</option>
 			</select>
