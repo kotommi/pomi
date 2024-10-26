@@ -45,6 +45,9 @@ export enum EquipType {
     Ring3 = "Ring 3",
     Ring4 = "Ring 4",
     Medal = "Medal",
+    RingNX = "Ring NX",
+    PendantNX = "Pendant NX",
+    Star = "Star",
 }
 
 export enum Job {
@@ -75,6 +78,25 @@ export interface GearSet {
     top?: Equip | null;
     bot?: Equip | null;
     helm?: Equip | null;
+    overall?: Equip | null;
+    glove?: Equip | null;
+    shoe?: Equip | null;
+    cape?: Equip | null;
+    weapon?: Equip | null;
+    shield?: Equip | null;
+    earring?: Equip | null;
+    face?: Equip | null;
+    eye?: Equip | null;
+    belt?: Equip | null;
+    pendant?: Equip | null;
+    ring1?: Equip | null;
+    ring2?: Equip | null;
+    ring3?: Equip | null;
+    ring4?: Equip | null;
+    medal?: Equip | null;
+    ringNX?: Equip | null;
+    pendantNX?: Equip | null;
+    star?: Equip | null;
 }
 
 export interface CharConfig {
@@ -83,6 +105,7 @@ export interface CharConfig {
     booster: boolean;
     si: boolean;
     mw: boolean;
+    echo: boolean;
 }
 
 export type Stats = {

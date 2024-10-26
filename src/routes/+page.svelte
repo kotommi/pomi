@@ -6,6 +6,10 @@
 	import { AttPot, EquipType, Job } from '$lib/types';
 	import type { Character, CharConfig, Equip, EquipSet, GearSet } from '$lib/types';
 	import { getStats } from '$lib/utils';
+	import { tompsonEquipSet as initialEquipSet, tompsonGear as initialGear } from '$lib/data';
+
+	let ts = initialEquipSet;
+	let tg = initialGear;
 
 	let char: Character = {
 		name: 'Maple',
@@ -18,7 +22,8 @@
 		sharpEyes: false,
 		booster: true,
 		si: false,
-		mw: true
+		mw: true,
+		echo: false
 	};
 
 	let top: Equip = {
@@ -77,7 +82,7 @@
 
 <div class="container h-full mx-auto flex flex-col justify-center items-center">
 	<h1 class="h1">Path of Mapleing</h1>
-	<EquipList bind:equipSet bind:equippedGear />
+	<EquipList bind:equipSet={ts} bind:equippedGear={tg} />
 	<CharacterCard bind:char />
 	<StatsCard bind:charConfig bind:char bind:gearSet={equippedGear} />
 	<ConfigBox bind:charConfig />

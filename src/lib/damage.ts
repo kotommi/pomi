@@ -7,7 +7,7 @@ const weaponAttributes = {
 }
 
 
-const totalStats = (gs: GearSet, config: CharConfig, char: Character) => {
+export const totalStats = (gs: GearSet, config: CharConfig, char: Character) => {
     const jobAttributes = weaponAttributes[char.job];
     const basePrimaryStat = char.stats[jobAttributes.primaryStat as keyof Character["stats"]];
     const equipPrimary = getEquipStats(gs, jobAttributes.primaryStat as keyof Equip["stats"]);
@@ -19,7 +19,12 @@ const totalStats = (gs: GearSet, config: CharConfig, char: Character) => {
     // breaks if all stats arent present at least as 0s
     const secondaries = weaponAttributes[char.job].secondary;
     const secondaryEquipStats = secondaries.map(sec => getEquipStats(gs, sec as keyof Character["stats"])).reduce((acc, cur) => acc + cur, 0)//getEquipStats(gs, jobAttributes.secondary)//attributes.secondary.map(stat => char.baseStats[stat] + char.weapon.stats[stat]).reduce((acc, cur) => acc + cur, 0);
-    const secondaryBaseStats = secondaries.map(sec => char.stats[sec as keyof Character["stats"]]).reduce((acc, cur) => acc + cur, 0);
+    const secondaryBaseStats = secondaries.map(sec => {
+        if (config.mw) {
+            return Math.floor(char.stats[sec as keyof Character["stats"]] + char.stats[sec as keyof Character["stats"]] * 0.1)
+        }
+        return char.stats[sec as keyof Character["stats"]]
+    }).reduce((acc, cur) => acc + cur, 0);
     const secondaryStatSum = secondaryBaseStats + secondaryEquipStats;
     return { primaryTotal, secondaryStatSum }
 }
@@ -29,12 +34,13 @@ General Formula
 MAX = (Primary Stat + Secondary Stat) * Weapon Attack / 100
 MIN = (Primary Stat * 0.9 * Skill Mastery + Secondary Stat) * Weapon Attack / 100 
 */
+// Tompson range 5201-9203 mw 5582-9906 echo+mw 5782-10260 echo+no mw 5387-9532 
 export const range = (gs: GearSet, config: CharConfig, char: Character) => {
     const { primaryTotal, secondaryStatSum } = totalStats(gs, config, char)
     const jobAttributes = weaponAttributes[char.job];
     const primary = primaryTotal * jobAttributes.primaryMulti;
     const secondary = secondaryStatSum
-    const totalWatt = getTotalWatt(gs)
+    const totalWatt = getTotalWatt(gs, config)
     const maxRange = Math.floor((primary + secondary) * (totalWatt) / 100)
     const minRange = Math.floor((primary * 0.9 * jobAttributes.mastery + secondary) * totalWatt / 100)
     return { minRange, maxRange }
@@ -54,9 +60,9 @@ Shadow partner is 50% of the hit floored. tested in game
 */
 export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
     const { primaryTotal } = totalStats(gs, config, char)
-    const totalWatt = getTotalWatt(gs) //char.weapon.att
+    const totalWatt = getTotalWatt(gs, config) //char.weapon.att
     const maxTT = (primaryTotal * 5) * totalWatt / 100
-    const minTT = (primaryTotal * 2.5) * totalWatt / 100
+    const minTT = Math.floor(primaryTotal * 2.5) * totalWatt / 100
     const avgTT = (maxTT + minTT) / 2 // 
     const skillPercentage = 1.5 // 150%
     const baseDamage = avgTT * skillPercentage
@@ -71,7 +77,7 @@ export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
     return { averageDps, averageDamage, maxHit }
 }
 
-const getTotalWatt = (gs: GearSet) => {
+export const getTotalWatt = (gs: GearSet, config: CharConfig) => {
     let total = 0;
     const keys = Object.keys(gs) as Array<keyof GearSet>;
     keys.forEach(key => {
@@ -81,10 +87,13 @@ const getTotalWatt = (gs: GearSet) => {
             }
         }
     })
+    if (config.echo) {
+        total += Math.floor(total * 0.04)
+    }
     return total;
 }
 
-const getEquipStats = (gs: GearSet, primaryStat: keyof Equip["stats"]) => {
+export const getEquipStats = (gs: GearSet, primaryStat: keyof Equip["stats"]) => {
     let total = 0;
     const keys = Object.keys(gs) as Array<keyof GearSet>;
     keys.forEach(key => {

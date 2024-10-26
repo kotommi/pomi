@@ -37,5 +37,9 @@
 			<input id="mw" class="input" type="checkbox" bind:checked={charConfig.mw} />
 			<p>mw</p>
 		</label>
+		<label class="flex items-center space-x-2">
+			<input id="echo" class="input" type="checkbox" bind:checked={charConfig.echo} />
+			<p>echo</p>
+		</label>
 	</div>
 </div>
