@@ -23,7 +23,7 @@
 
 	let charConfig: CharConfig = {
 		attPot: AttPot.None,
-		sharpEyes: false,
+		sharpEyes: true,
 		booster: true,
 		si: false,
 		mw: true,
@@ -38,6 +38,6 @@
 		<CharacterCard bind:char />
 	</div>
 	<EquipList bind:equipSet={ts} bind:equippedGear={tg} />
-	<ItemCreator bind:equippedGear={tg} bind:equipSet={ts}/>
+	<ItemCreator bind:equippedGear={tg} bind:equipSet={ts} />
 	<button on:click={() => console.log(char, tg, charConfig)}>Click</button>
 </div>

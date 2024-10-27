@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { range, ttDamage } from '$lib/damage';
-	import { AttPot, Job, type Character, type CharConfig, type GearSet } from '$lib/types';
+	import { Job, type Character, type CharConfig, type GearSet } from '$lib/types';
 
 	export let charConfig: CharConfig;
 	export let char: Character;
 	export let gearSet: GearSet;
 
-	const { averageDps, averageDamage, maxHit } = ttDamage(gearSet, charConfig, char);
-
+	const { averageDps, maxHit } = ttDamage(gearSet, charConfig, char);
 	let { minRange, maxRange } = range(gearSet, charConfig, char);
 </script>
 
@@ -19,12 +18,9 @@
 	<div>
 		<span>dps: {averageDps}</span>
 	</div>
-	<div>
-		<span>Average hit: {averageDamage}</span>
-	</div>
 	{#if charConfig.sharpEyes || [Job.NL].includes(char.job)}
 		<div>
-			<span>Max hit (Crit): {maxHit}</span>
+			<span>Max damage line: {maxHit}</span>
 		</div>
 	{/if}
 </div>

@@ -3,6 +3,8 @@
 	// instance-level logic goes here
 	export let equipSet: EquipSet[];
 	export let equippedGear: GearSet;
+
+	const morp = (key: string) => key.toLowerCase() as keyof GearSet;
 </script>
 
 <!-- markup (zero or more items) goes here -->
@@ -12,15 +14,9 @@
 		{#each equipSet as set}
 			<li class="flex-auto m-1 p-1">
 				<label class="label" for={set.type}>{set.type}</label>
-				<select
-					id={set.type}
-					class="select"
-					bind:value={equippedGear[set.type.toLowerCase() as keyof GearSet]}
-				>
+				<select id={set.type} class="select" bind:value={equippedGear[morp(set.type)]}>
 					{#each set.equips as equip}
-						<option
-							value={equip}
-							selected={equippedGear[set.type.toLowerCase() as keyof GearSet]?.name === equip.name}
+						<option value={equip} selected={equippedGear[morp(set.type)]?.name === equip.name}
 							>{equip.name}</option
 						>
 					{/each}

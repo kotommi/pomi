@@ -10,11 +10,7 @@
 	<div class="">
 		<div class="flex items-center space-between">
 			<label class="label" for="attPot">Potion</label>
-			<select
-				id="attPot"
-				class="select"
-				bind:value={charConfig.attPot}
-			>
+			<select id="attPot" class="select" bind:value={charConfig.attPot}>
 				{#each Object.keys(AttPot).filter((key) => Number.isNaN(Number(key))) as pot}
 					<option selected={pot === AttPot[charConfig.attPot]} value={pot}>{pot}</option>
 				{/each}

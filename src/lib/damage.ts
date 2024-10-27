@@ -52,30 +52,35 @@ MAX = (LUK * 5.0) * Weapon Attack / 100
 MIN = (LUK * 2.5) * Weapon Attack / 100
 Lucky Seven/Triple Throw/Drain/Shadow Meso/Normal Attack
 Faster (2): 600ms (-210ms)
-Faster (3): 660ms (-150ms)
-Fast (4): 720ms (-90ms)
-Fast (5): 750ms (-60ms)
-Normal (6): 810ms
 Shadow partner is 50% of the hit floored. tested in game
 */
 export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
     const { primaryTotal } = totalStats(gs, config, char)
-    const totalWatt = getTotalWatt(gs, config) //char.weapon.att
-    const maxTT = (primaryTotal * 5) * totalWatt / 100
-    const minTT = Math.floor(primaryTotal * 2.5) * totalWatt / 100
-    const avgTT = (maxTT + minTT) / 2 // 
+    const totalWatt = getTotalWatt(gs, config)
+    // base damage
+    const maxTT = (primaryTotal * 5) * (totalWatt / 100)
+    const minTT = (primaryTotal * 2.5) * (totalWatt / 100)
+    const avgTT = (maxTT + minTT) / 2
+
+    // skill damage multipliers
     const skillPercentage = 1.5 // 150%
-    const baseDamage = avgTT * skillPercentage
-    const critMulti = 2 + 1.4 // base + SE
-    const critDamage = baseDamage * critMulti
-    const critChance = 0.50 + 0.15 // base + SE
+    const critMulti = 1 + (config.sharpEyes ? 1.4 : 0) // base + SE
+    const critChance = 0.50 + (config.sharpEyes ? 0.15 : 0) // base + SE
+    const finalCritMultiplier = critMulti + skillPercentage;
+    const baseMultiplier = skillPercentage;
+
+    const baseDamage = avgTT * baseMultiplier
+    const critDamage = avgTT * finalCritMultiplier
+    const maxHit = Math.floor(maxTT * finalCritMultiplier);
+
     const averageDamage = baseDamage * (1 - critChance) + critDamage * critChance
-    const maxHit = maxTT * skillPercentage * critMulti
     const skillTime = 0.6
     // 3 hits + 3*0.5 hits from sp
     const averageDps = Math.floor((3 + 3 * 0.5) * averageDamage / skillTime)
-    return { averageDps, averageDamage, maxHit }
+    return { averageDps, maxHit }
 }
+
+
 
 export const getTotalWatt = (gs: GearSet, config: CharConfig) => {
     let total = 0;
