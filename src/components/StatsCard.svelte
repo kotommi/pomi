@@ -1,22 +1,12 @@
 <script lang="ts">
 	import { range, ttDamage } from '$lib/damage';
-	import { AttPot, type Character, type CharConfig, type GearSet } from '$lib/types';
+	import { AttPot, Job, type Character, type CharConfig, type GearSet } from '$lib/types';
 
 	export let charConfig: CharConfig;
 	export let char: Character;
 	export let gearSet: GearSet;
 
-	console.log(char);
-
-	const helper = () => {
-		console.log(char.stats.luk);
-		const deeps = ttDamage(gearSet, charConfig, char).averageDps;
-		console.log(deeps);
-		console.log(gearSet);
-		console.log(charConfig);
-		console.log(char);
-		return ttDamage(gearSet, charConfig, char).averageDps;
-	};
+	const { averageDps, averageDamage, maxHit } = ttDamage(gearSet, charConfig, char);
 
 	let { minRange, maxRange } = range(gearSet, charConfig, char);
 </script>
@@ -27,22 +17,14 @@
 		<span>range: {minRange} - {maxRange}</span>
 	</div>
 	<div>
-		<span>dps: {helper()}</span>
+		<span>dps: {averageDps}</span>
 	</div>
 	<div>
-		<span>Max hit: </span>
+		<span>Average hit: {averageDamage}</span>
 	</div>
-	{#if charConfig.sharpEyes}
+	{#if charConfig.sharpEyes || [Job.NL].includes(char.job)}
 		<div>
-			<span>Max hit (SE): </span>
-		</div>
-	{/if}
-	<div>
-		<span>Min hit: </span>
-	</div>
-	{#if charConfig.sharpEyes}
-		<div>
-			<span>Min crit (SE): </span>
+			<span>Max hit (Crit): {maxHit}</span>
 		</div>
 	{/if}
 </div>

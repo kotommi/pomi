@@ -2,19 +2,13 @@
 	import { Job, type Stats, type Character } from '$lib/types';
 
 	export let char: Character;
-
-	const onChange = (e: Event) => {
-		const select = e.target as HTMLSelectElement;
-		console.log(select.value);
-		console.log(char);
-	};
 </script>
 
 <div class="flex-auto border rounded-md m-1 p-5">
 	<h2 class="h2">Character</h2>
 	<div class="flex flex-row m-4 p-4">
 		<span>Job</span>
-		<select class="select" bind:value={char.job} on:change={onChange}>
+		<select class="select" bind:value={char.job}>
 			{#each Object.values(Job) as job}
 				<option selected={job === char.job}>{job}</option>
 			{/each}

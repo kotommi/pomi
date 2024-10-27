@@ -21,7 +21,7 @@ test('stats', () => {
 		mw: false,
 		echo: false
 	};
-	// Tomson equips 238 luk 121 dex 105str
+	// Tompson equips 238 luk 121 dex 105str
 	const equipLuk = getEquipStats(tg, 'luk');
 	expect(equipLuk).toBe(238);
 	const equipDex = getEquipStats(tg, 'dex');

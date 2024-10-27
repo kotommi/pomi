@@ -7,6 +7,7 @@
 	import type { Character, CharConfig, Equip, EquipSet, GearSet } from '$lib/types';
 	import { getStats } from '$lib/utils';
 	import { tompsonEquipSet as initialEquipSet, tompsonGear as initialGear } from '$lib/data';
+	import ItemCreator from '../components/ItemCreator.svelte';
 
 	let ts = initialEquipSet;
 	let tg = initialGear;
@@ -16,6 +17,9 @@
 		job: Job.NL,
 		stats: getStats(Job.NL)
 	};
+
+	char.stats.dex = 27;
+	char.stats.luk = 995;
 
 	let charConfig: CharConfig = {
 		attPot: AttPot.None,
@@ -80,10 +84,12 @@
 	];
 </script>
 
-<div class="container h-full mx-auto flex flex-col justify-center items-center">
+<div class="container h-full mx-auto flex flex-row flex-wrap justify-center items-center">
 	<h1 class="h1">Path of Mapleing</h1>
 	<EquipList bind:equipSet={ts} bind:equippedGear={tg} />
 	<CharacterCard bind:char />
-	<StatsCard bind:charConfig bind:char bind:gearSet={equippedGear} />
+	<StatsCard bind:charConfig bind:char bind:gearSet={tg} />
 	<ConfigBox bind:charConfig />
+	<ItemCreator />
+	<button on:click={() => console.log(char, tg, charConfig)}>Click</button>
 </div>

@@ -87,6 +87,7 @@ export const getTotalWatt = (gs: GearSet, config: CharConfig) => {
             }
         }
     })
+    total += config.attPot
     if (config.echo) {
         total += Math.floor(total * 0.04)
     }
