@@ -11,7 +11,7 @@
 	let { minRange, maxRange } = range(gearSet, charConfig, char);
 </script>
 
-<div class="flex flex-col border rounded-md">
+<div class="flex flex-col border rounded-md text-center">
 	<h2 class="h2">Stats</h2>
 	<div>
 		<span>range: {minRange} - {maxRange}</span>

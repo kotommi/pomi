@@ -14,7 +14,6 @@
 				id="attPot"
 				class="select"
 				bind:value={charConfig.attPot}
-				on:change={() => console.log(charConfig)}
 			>
 				{#each Object.keys(AttPot).filter((key) => Number.isNaN(Number(key))) as pot}
 					<option selected={pot === AttPot[charConfig.attPot]} value={pot}>{pot}</option>
@@ -26,7 +25,7 @@
 			<p>se</p>
 		</label>
 		<label class="flex items-center space-x-2">
-			<input id="booster" class="input grow" type="checkbox" bind:checked={charConfig.booster} />
+			<input id="booster" class="input" type="checkbox" bind:checked={charConfig.booster} />
 			<p>booster</p>
 		</label>
 		<label class="flex items-center space-x-2">

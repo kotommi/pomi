@@ -64,7 +64,7 @@ export const defaultStats = {
     }
 }
 
-const helm = {
+const helmet = {
     type: EquipType.Helm,
     name: "Auf Haven Circlet",
     stats: {
@@ -206,7 +206,7 @@ const ring4 = {
     }
 }
 
-const pendantNX = {
+const pendantnx = {
     type: EquipType.PendantNX,
     name: "Golden Leaf Pendant",
     stats: {
@@ -225,7 +225,7 @@ const star = {
 }
 
 export let tompsonGear: GearSet = {
-    helm,
+    helmet,
     medal,
     face,
     eye,
@@ -241,14 +241,14 @@ export let tompsonGear: GearSet = {
     ring2,
     ring3,
     ring4,
-    pendantNX,
+    pendantnx,
     star
 }
 
 export let tompsonEquipSet: EquipSet[] = [
     {
         type: EquipType.Helm,
-        equips: [helm]
+        equips: [helmet]
     },
     {
         type: EquipType.Medal,
@@ -312,7 +312,7 @@ export let tompsonEquipSet: EquipSet[] = [
     },
     {
         type: EquipType.PendantNX,
-        equips: [pendantNX]
+        equips: [pendantnx]
     },
     {
         type: EquipType.Star,

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { EquipType } from '$lib/types';
+	import { EquipType, type EquipSet, type GearSet } from '$lib/types';
 
 	let newEquip = {
 		name: '',
-		type: EquipType.Top,
+		type: EquipType.Helm,
 		stats: {
 			str: 0,
 			dex: 0,
@@ -14,9 +14,29 @@
 		}
 	};
 
+	export let equippedGear: GearSet;
+	export let equipSet: EquipSet[];
+
 	const statKeys: (keyof typeof newEquip.stats)[] = Object.keys(
 		newEquip.stats
 	) as (keyof typeof newEquip.stats)[];
+
+	const handleClick = () => {
+		equipSet.find((set) => set.type === newEquip.type)?.equips.push(newEquip);
+		equippedGear[newEquip.type.toLowerCase() as keyof GearSet] = newEquip;
+		newEquip = {
+			name: '',
+			type: EquipType.Helm,
+			stats: {
+				str: 0,
+				dex: 0,
+				int: 0,
+				luk: 0,
+				w_att: 0,
+				m_att: 0
+			}
+		};
+	};
 </script>
 
 <div class="p-4 m-4 border rounded-md">
@@ -37,8 +57,19 @@
 		{#each statKeys as stat}
 			<div class="flex items-center space-between p-1 m-1">
 				<label class="label" for={stat}>{stat}</label>
-				<input id={stat} class="input text-center" type="number" bind:value={newEquip.stats[stat]} min={0} max={255} minlength={1} maxlength={3} size={1} />
+				<input
+					id={stat}
+					class="input text-center"
+					type="number"
+					bind:value={newEquip.stats[stat]}
+					min={0}
+					max={255}
+					minlength={1}
+					maxlength={3}
+					size={1}
+				/>
 			</div>
 		{/each}
+		<button class="badge variant-filled-primary" on:click|preventDefault={handleClick}>Add</button>
 	</div>
 </div>

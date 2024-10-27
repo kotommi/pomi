@@ -49,6 +49,8 @@ test('stats', () => {
 	expect(maxRange).toBe(12938);
 });
 
+// tompson maxcrit se+mw 51k ish
+
 test('range', () => {
 
 	let tg = initialGear;

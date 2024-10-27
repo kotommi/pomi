@@ -40,13 +40,13 @@ export enum EquipType {
     Eye = "Eye",
     Belt = "Belt",
     Pendant = "Pendant",
-    Ring1 = "Ring 1",
-    Ring2 = "Ring 2",
-    Ring3 = "Ring 3",
-    Ring4 = "Ring 4",
+    Ring1 = "Ring1",
+    Ring2 = "Ring2",
+    Ring3 = "Ring3",
+    Ring4 = "Ring4",
     Medal = "Medal",
-    RingNX = "Ring NX",
-    PendantNX = "Pendant NX",
+    RingNX = "RingNX",
+    PendantNX = "PendantNX",
     Star = "Star",
 }
 
@@ -77,7 +77,7 @@ export type Character = {
 export interface GearSet {
     top?: Equip | null;
     bot?: Equip | null;
-    helm?: Equip | null;
+    helmet?: Equip | null;
     overall?: Equip | null;
     glove?: Equip | null;
     shoe?: Equip | null;
@@ -94,8 +94,8 @@ export interface GearSet {
     ring3?: Equip | null;
     ring4?: Equip | null;
     medal?: Equip | null;
-    ringNX?: Equip | null;
-    pendantNX?: Equip | null;
+    ringnx?: Equip | null;
+    pendantnx?: Equip | null;
     star?: Equip | null;
 }
 
