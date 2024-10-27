@@ -40,6 +40,13 @@ test('stats', () => {
 	// total wa 91 + 31 + 1 + 3 + 7 + 18 + 16 + 21 + 8
 	const totalWA = getTotalWatt(tg, charConfig);
 	expect(totalWA).toBe(196);
+	// stopper+mw test 7291 - 12938
+	charConfig.mw = true;
+	charConfig.attPot = AttPot.Stopper;
+	charConfig.echo = false;
+	const { minRange, maxRange } = range(tg, charConfig, char);
+	expect(minRange).toBe(7291);
+	expect(maxRange).toBe(12938);
 });
 
 test('range', () => {
