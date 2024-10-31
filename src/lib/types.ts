@@ -25,6 +25,22 @@ export interface EquipSet {
     equips: Equip[];
 }
 
+export enum Skill {
+    TT = "Triple Throw",
+    Hurricane = "Hurricane",
+    RapidFire = "Rapid Fire",
+    Brandish = "Brandish",
+    Fury = "Spear Fury",
+    Blast = "Dragon Blast",
+    Genesis = "Genesis",
+    AngelRay = "Angel Ray",
+    Blizzard = "Blizzard",
+    ChainLightning = "Chain Lightning",
+    Paralyze = "Paralyze",
+    Meteor = "Meteor",
+    MMmacro = "Snipe + Strafe",
+}
+
 export enum EquipType {
     Top = "Top",
     Bot = "Bottom",
@@ -53,14 +69,33 @@ export enum EquipType {
 export enum Job {
     NL = "Night Lord",
     Shad = "Shadower",
+    BM = "Bowmaster",
+    MM = "Marksman",
+    Corsair = "Corsair",
+    Bucc = "Buccaneer",
+    Hero = "Hero",
+    Paladin = "Paladin",
+    DK = "Dark Knight",
+    IL = "I/L Mage",
+    FP = "F/P Mage",
+    BS = "Bishop",
 }
 
 export enum AttPot {
     None = 0,
+    Gizer = 25,
     Stopper = 60,
     Apple = 100,
     Gelt = 120,
     Narc = 140
+}
+
+export enum MattPot {
+    None = 0,
+    Gizer = 30,
+    Apple = 100,
+    Pie = 120,
+    Cheese = 220
 }
 
 export type Character = {
