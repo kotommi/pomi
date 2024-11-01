@@ -1,5 +1,5 @@
 import { type GearSet, type Equip, type CharConfig, type Character, type Job, Skill } from "./types"
-import { jobData } from "./data";
+import { jobData, skillData } from "./data";
 
 // TODO add jobs that have wa from skills
 
@@ -77,21 +77,59 @@ export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
     const skillName = "Thriple Throw"
     return { skillName, averageDps, maxHit }
 }
+
+/*
+1.) Calculate min and max damage from the appropriate damage formula (see Weapon/Special Damage Formulas).
+2.) Multiply by any applicable skill modifiers (see Modifiers), including elemental bonuses.
+3.) Calculate defense (see Defense Reduction).
+4.) Select a random number from the damage range (not necessarily integer). Call this X, set it aside for a couple of steps.
+5.) Find the appropriate damage multiplier (typically expressed as a percentage in the skill description, which should be converted to decimal). Default attack and spell-based skills count as 100%, or 1.
+6.) Add any applicable critical bonuses (typically expressed as a percentage in the critical skill description, which should be converted to decimal). Sharp Eyes on physical attacks adds an additional 100% or 1; when combined with Stun Mastery, a further 100% or 1 (totalling to Stun Mastery + Sharp Eyes + 200%; yes, it's true). Also, add Corsairs' Elemental Boost if applicable (max level adds 2).
+7.) Take that value and multiply it with X, the number selected in Step 4.
+8.) Check if the damage is within the range of [1, 199999] and if not, restrict them to 1 or 199999 respectively.
+9.) Multiply by any After-Modifiers (see Modifiers). Most of these apply to skills where each successive hit deals more/less damage than the last.
+10.) Take the integer part of the result.
+*/
+export const genericWeaponDamage = (gs: GearSet, config: CharConfig, char: Character, skill: Skill) => {
+    const { primaryTotal } = totalStats(gs, config, char);
+    const totalWatt = getTotalWatt(gs, config);
+    const { minRange, maxRange } = range(gs, config, char);
+    const skillPercentage = skillData[skill]?.skillPercentage ?? 0
+    const averageBaseDamage = (minRange + maxRange) / 2;
+
+    const critMulti = 0 + (config.sharpEyes ? 1.4 : 0) // base + SE
+    const critChance = 0 + (config.sharpEyes ? 0.15 : 0) // base + SE
+    const finalCritMultiplier = critMulti + skillPercentage;
+    const baseMultiplier = skillPercentage;
+
+    const baseDamage = averageBaseDamage * baseMultiplier
+    const critDamage = averageBaseDamage * finalCritMultiplier
+    const maxHit = Math.floor(maxRange * finalCritMultiplier);
+
+    const averageDamage = baseDamage * (1 - critChance) + critDamage * critChance
+    const skillTime = skillData[skill]?.delay ?? 0;
+
+    const averageDps = Math.floor(skillData[skill]?.hits * averageDamage / skillTime)
+    return { skill, averageDps, maxHit }
+
+}
+
 // Spell Damage:
 // MAX = ((Magic²/1000 + Magic)/30 + INT/200) * Spell Attack
 // MIN = ((Magic²/1000 + Magic * Mastery * 0.9)/30 + INT/200) * Spell Attack
-export const mageDamage = (gs: GearSet, config: CharConfig, char: Character) => {
+// TODO Mage crit 1.4x damage?
+export const mageDamage = (gs: GearSet, config: CharConfig, char: Character, skill: Skill) => {
     const { primaryTotal } = totalStats(gs, config, char)
     const attributes = jobData[char.job];
     const totalMatt = getTotalMatt(gs, config);
     const magic = primaryTotal + totalMatt
-    const maxDamage = ((magic ** 2 / 1000 + magic) / 30 + primaryTotal / 200) * totalMatt
-    const minDamage = ((magic ** 2 / 1000 + magic * attributes.mastery * 0.9) / 30 + primaryTotal / 200) * totalMatt
+    const skillPercentage = skillData[skill]?.skillPercentage ?? 0
+    const maxDamage = ((magic ** 2 / 1000 + magic) / 30 + primaryTotal / 200) * skillPercentage
+    const minDamage = ((magic ** 2 / 1000 + magic * attributes.mastery * 0.9) / 30 + primaryTotal / 200) * skillPercentage
     const avgDamage = (maxDamage + minDamage) / 2
-    const skillTime = 0.6 // ??
-    const averageDps = Math.floor(avgDamage / skillTime)
-    const skillName = "Genesis"
-    return { skillName, averageDps, maxDamage }
+    const skillTime = skillData[skill]?.delay;
+    const averageDps = Math.floor(avgDamage / (skillTime ? skillTime : 0))
+    return { averageDps, maxDamage, minDamage }
 }
 
 
