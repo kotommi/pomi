@@ -1,4 +1,4 @@
-import { EquipType, Job, type Equip, type EquipSet, type GearSet } from "./types";
+import { EquipType, Job, Skill, type Character, type Equip, type EquipSet, type GearSet } from "./types";
 
 export const tops: Equip[] = [
     {
@@ -319,3 +319,188 @@ export let tompsonEquipSet: EquipSet[] = [
         equips: [star]
     }
 ]
+
+export interface JobAttributes {
+    primaryStat: keyof Character["stats"];
+    primaryMulti: number;
+    secondary: Array<keyof Character["stats"]>;
+    mastery: number;
+    skills?: Array<Skill>;
+}
+export const jobData: Record<Job, JobAttributes> = {
+    "Night Lord": { primaryStat: "luk", primaryMulti: 3.6, secondary: ["str", "dex"], mastery: 0.6, skills: [Skill.TT] },
+    "Shadower": { primaryStat: "luk", primaryMulti: 3.6, secondary: ["str", "dex"], mastery: 0.6 },
+    "Bowmaster": { primaryStat: "dex", primaryMulti: 3.6, secondary: ["str"], mastery: 0.9 },
+    "Marksman": { primaryStat: "dex", primaryMulti: 3.6, secondary: ["str"], mastery: 1.0 },
+    "Corsair": { primaryStat: "dex", primaryMulti: 3.6, secondary: ["str"], mastery: 0.6 },
+    "Buccaneer": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 },
+    "Hero": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 },
+    "Paladin": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 }, // fire/ice/light 130% holy 140%
+    "Dark Knight": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.8 }, // beholder +20%, zerk 210%
+    "Bishop": { primaryStat: "int", primaryMulti: 3.6, secondary: ["luk"], mastery: 0.6 },
+    "I/L Mage": { primaryStat: "int", primaryMulti: 3.6, secondary: ["luk"], mastery: 0.6 },
+    "F/P Mage": { primaryStat: "int", primaryMulti: 3.6, secondary: ["luk"], mastery: 0.6 },
+}
+
+interface SkillInfo {
+    delay: number;
+    skillPercentage: number;
+    attackType: "weapon" | "magic";
+}
+
+// https://ayumilovemaple.wordpress.com/2009/09/06/maplestory-formula-compilation/
+// https://ayumilovemaple.wordpress.com/2009/09/06/maplestory-attack-speed-reference/
+export const skillData: Partial<Record<Skill, SkillInfo>> = {
+    // NL
+    [Skill.TT]: {
+        delay: 0.6,
+        skillPercentage: 1.5,
+        attackType: "weapon"
+    },
+    // Bishop
+    [Skill.AngelRay]: {
+        delay: 0.81,
+        skillPercentage: 2.4,
+        attackType: "magic"
+    },
+    [Skill.Genesis]: {
+        delay: 2.7,
+        skillPercentage: 6.7,
+        attackType: "magic"
+    },
+    [Skill.Bahamut]: {
+        delay: 99.99, // find
+        skillPercentage: 2.3,
+        attackType: "magic"
+    },
+    // I/L
+    [Skill.ChainLightning]: {
+        delay: .69,
+        skillPercentage: 2.1,
+        attackType: "magic"
+    },
+    [Skill.Blizzard]: {
+        delay: 3.06,
+        skillPercentage: 5.7,
+        attackType: "magic"
+    },
+    // F/P
+    [Skill.Meteor]: {
+        delay: 3.06,
+        skillPercentage: 5.7,
+        attackType: "magic"
+    },
+    [Skill.Paralyze]: {
+        delay: .72,
+        skillPercentage: 2.4,
+        attackType: "magic"
+    },
+    // Bowmaster
+    [Skill.Hurricane]: {
+        delay: .12,
+        skillPercentage: 1.0,
+        attackType: "weapon"
+    },
+    // Sair
+    [Skill.RapidFire]: {
+        delay: .12,
+        skillPercentage: 2.0,
+        attackType: "weapon"
+    },
+    [Skill.Cannon]: {
+        delay: .6,
+        skillPercentage: 3.8,
+        attackType: "weapon"
+    },
+    [Skill.Torpedo]: {
+        delay: .72,
+        skillPercentage: 7.8,
+        attackType: "weapon"
+    },
+    // Marksmeme
+    [Skill.MMmacro]: {
+        delay: .6, // FIXME
+        skillPercentage: 1.2,
+        attackType: "weapon"
+    },
+    [Skill.Snipe]: {
+        delay: .63,
+        skillPercentage: 2.0,
+        attackType: "weapon"
+    },
+    [Skill.MMStrafe]: {
+        delay: .63,
+        skillPercentage: 1.25,
+        attackType: "weapon"
+    },
+    // Bucc
+    [Skill.Barrage]: {
+        delay: 1.83,
+        skillPercentage: 666, // Special case
+        attackType: "weapon"
+    },
+    [Skill.Demolition]: {
+        delay: 2.34,
+        skillPercentage: 5.0,
+        attackType: "weapon"
+    },
+    [Skill.DragonStrike]: {
+        delay: 1.08,
+        skillPercentage: 9.0,
+        attackType: "weapon"
+    },
+    [Skill.Snatch]: {
+        delay: .75,
+        skillPercentage: 6.0,
+        attackType: "weapon"
+    },
+    // Shad
+    [Skill.BoT]: {
+        delay: .6,
+        skillPercentage: 2.5, // special?
+        attackType: "weapon"
+    },
+    [Skill.BStep]: {
+        delay: .69,
+        skillPercentage: 6.0,
+        attackType: "weapon"
+    },
+    [Skill.Assassinate]: {
+        delay: 1.38,
+        skillPercentage: 9.5,
+        attackType: "weapon"
+    },
+    [Skill.DarkSight]: {
+        delay: .24, // test
+        skillPercentage: 0,
+        attackType: "weapon"
+    },
+    // DK
+    [Skill.SpearCrusher]: {
+        delay: .81,
+        skillPercentage: 1.7, // fixme hitcount
+        attackType: "weapon"
+    },
+    [Skill.SpearFury]: {
+        delay: .6,
+        skillPercentage: 2.5,
+        attackType: "weapon"
+    },
+    // Hero
+    [Skill.Brandish]: {
+        delay: .63,
+        skillPercentage: 2.6,
+        attackType: "weapon"
+    },
+    // Paladin
+    [Skill.Blast]: {
+        delay: .63,
+        skillPercentage: 5.8,
+        attackType: "weapon"
+    },
+    [Skill.ACB]: {
+        delay: .6,
+        skillPercentage: 3.5,
+        attackType: "weapon"
+    },
+}

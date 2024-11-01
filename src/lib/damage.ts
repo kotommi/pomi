@@ -1,36 +1,12 @@
 import { type GearSet, type Equip, type CharConfig, type Character, type Job, Skill } from "./types"
+import { jobData } from "./data";
 
 // TODO add jobs that have wa from skills
-interface JobAttributes {
-    primaryStat: keyof Character["stats"];
-    primaryMulti: number;
-    secondary: Array<keyof Character["stats"]>;
-    mastery: number;
-    skills?: Array<Skill>;
-}
-const jobAttributes: Record<Job, JobAttributes> = {
-    "Night Lord": { primaryStat: "luk", primaryMulti: 3.6, secondary: ["str", "dex"], mastery: 0.6, skills: [Skill.TT] },
-    "Shadower": { primaryStat: "luk", primaryMulti: 3.6, secondary: ["str", "dex"], mastery: 0.6 },
-    "Bowmaster": { primaryStat: "dex", primaryMulti: 3.6, secondary: ["str"], mastery: 0.9 },
-    "Marksman": { primaryStat: "dex", primaryMulti: 3.6, secondary: ["str"], mastery: 1.0 },
-    "Corsair": { primaryStat: "dex", primaryMulti: 3.6, secondary: ["str"], mastery: 0.6 },
-    "Buccaneer": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 },
-    "Hero": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 },
-    "Paladin": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 },
-    "Dark Knight": { primaryStat: "str", primaryMulti: 3.6, secondary: ["dex"], mastery: 0.6 },
-    "Bishop": { primaryStat: "int", primaryMulti: 3.6, secondary: ["luk"], mastery: 0.6 },
-    "I/L Mage": { primaryStat: "int", primaryMulti: 3.6, secondary: ["luk"], mastery: 0.6 },
-    "F/P Mage": { primaryStat: "int", primaryMulti: 3.6, secondary: ["luk"], mastery: 0.6 },
-}
-
-
-
-
 
 
 
 export const totalStats = (gs: GearSet, config: CharConfig, char: Character) => {
-    const attributes = jobAttributes[char.job];
+    const attributes = jobData[char.job];
     const basePrimaryStat = char.stats[attributes.primaryStat as keyof Character["stats"]];
     const equipPrimary = getEquipStats(gs, attributes.primaryStat as keyof Equip["stats"]);
     let primaryTotal = basePrimaryStat
@@ -39,7 +15,7 @@ export const totalStats = (gs: GearSet, config: CharConfig, char: Character) => 
     }
     primaryTotal += equipPrimary;
     const secondaries = attributes.secondary;
-    const secondaryEquipStats = secondaries.map(sec => getEquipStats(gs, sec as keyof Character["stats"])).reduce((acc, cur) => acc + cur, 0)//getEquipStats(gs, jobAttributes.secondary)//attributes.secondary.map(stat => char.baseStats[stat] + char.weapon.stats[stat]).reduce((acc, cur) => acc + cur, 0);
+    const secondaryEquipStats = secondaries.map(sec => getEquipStats(gs, sec as keyof Character["stats"])).reduce((acc, cur) => acc + cur, 0)//getEquipStats(gs, jobData.secondary)//attributes.secondary.map(stat => char.baseStats[stat] + char.weapon.stats[stat]).reduce((acc, cur) => acc + cur, 0);
     const secondaryBaseStats = secondaries.map(sec => {
         if (config.mw) {
             return Math.floor(char.stats[sec as keyof Character["stats"]] + char.stats[sec as keyof Character["stats"]] * 0.1)
@@ -58,7 +34,7 @@ MIN = (Primary Stat * 0.9 * Skill Mastery + Secondary Stat) * Weapon Attack / 10
 // Tompson range 5201-9203 mw 5582-9906 echo+mw 5782-10260 echo+no mw 5387-9532 
 export const range = (gs: GearSet, config: CharConfig, char: Character) => {
     const { primaryTotal, secondaryStatSum } = totalStats(gs, config, char)
-    const attributes = jobAttributes[char.job];
+    const attributes = jobData[char.job];
     const primary = primaryTotal * attributes.primaryMulti;
     const secondary = secondaryStatSum
     const totalWatt = getTotalWatt(gs, config)
@@ -106,7 +82,7 @@ export const ttDamage = (gs: GearSet, config: CharConfig, char: Character) => {
 // MIN = ((Magic²/1000 + Magic * Mastery * 0.9)/30 + INT/200) * Spell Attack
 export const mageDamage = (gs: GearSet, config: CharConfig, char: Character) => {
     const { primaryTotal } = totalStats(gs, config, char)
-    const attributes = jobAttributes[char.job];
+    const attributes = jobData[char.job];
     const totalMatt = getTotalMatt(gs, config);
     const magic = primaryTotal + totalMatt
     const maxDamage = ((magic ** 2 / 1000 + magic) / 30 + primaryTotal / 200) * totalMatt
@@ -172,3 +148,4 @@ export const getEquipStats = (gs: GearSet, primaryStat: keyof Equip["stats"]) =>
 export const skillFuncs: Partial<Record<Skill, Function>> = {
     [Skill.TT]: ttDamage,
 }
+

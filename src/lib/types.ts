@@ -39,6 +39,23 @@ export enum Skill {
     Paralyze = "Paralyze",
     Meteor = "Meteor",
     MMmacro = "Snipe + Strafe",
+    BattleshipCannon = "BattleshipCannon",
+    Cannon = "Cannon",
+    Torpedo = "Torpedo",
+    Snipe = "Snipe",
+    MMStrafe = "MMStrafe",
+    Barrage = "Barrage",
+    Demolition = "Demolition",
+    DragonStrike = "DragonStrike",
+    BoT = "BoT",
+    BStep = "BStep",
+    Assassinate = "Assassinate",
+    DarkSight = "DarkSight",
+    Snatch = "Snatch",
+    SpearCrusher = "SpearCrusher",
+    SpearFury = "SpearFury",
+    ACB = "ACB",
+    Bahamut = "Bahamut",
 }
 
 export enum EquipType {
